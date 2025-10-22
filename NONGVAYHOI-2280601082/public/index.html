@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudSync - Hệ thống quản lý file thông minh</title>
+    <meta name="description" content="Hệ thống upload và quản lý file hiện đại với giao diện đẹp mắt và tính năng mạnh mẽ">
+    <meta name="keywords" content="upload file, cloud storage, quản lý file, avatar upload">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/main.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☁️</text></svg>">
+    
+    <style>
+              /* Simple styles for demo - using main.css for full styles */
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            margin: 0.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4caf50 0%, #8bc34a 100%);
+            color: white;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .features {
+            background: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            padding: 2rem;
+            border-radius: 15px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                ☁️ CloudSync
+            </h1>
+            <p class="hero-subtitle">
+                Hệ thống quản lý file thông minh với giao diện hiện đại. 
+                Upload avatar và nhiều file cùng lúc một cách dễ dàng và an toàn.
+            </p>
+            <div>
+                <a href="/upload.html" class="btn btn-primary">
+                    🚀 Bắt đầu Upload
+                </a>
+                <a href="#features" class="btn btn-outline">
+                    📋 Tìm hiểu thêm
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div>
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem; color: #333;">✨ Tính năng nổi bật</h2>
+            <p style="font-size: 1.2rem; color: #666; margin-bottom: 2rem;">
+                CloudSync cung cấp những tính năng hiện đại nhất để quản lý file của bạn
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📸</div>
+                    <h3 class="feature-title">Upload Avatar</h3>
+                    <p>Upload và quản lý avatar cá nhân với preview trực tiếp. Hỗ trợ nhiều định dạng ảnh phổ biến với bảo mật JWT Token.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🖼️</div>
+                    <h3 class="feature-title">Multiple Upload</h3>
+                    <p>Upload nhiều file cùng lúc với drag & drop. Tiết kiệm thời gian và tăng hiệu suất làm việc với preview trước khi upload.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Bảo mật cao</h3>
+                    <p>Xác thực JWT Token, mã hóa dữ liệu và kiểm soát quyền truy cập chặt chẽ để bảo vệ file của bạn.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">Responsive Design</h3>
+                    <p>Giao diện tối ưu cho mọi thiết bị từ desktop đến mobile. Trải nghiệm mượt mà trên mọi màn hình.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Tốc độ cao</h3>
+                    <p>Upload nhanh chóng với xử lý file thông minh. Hỗ trợ nhiều định dạng và kích thước file linh hoạt.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">Giao diện đẹp</h3>
+                    <p>Thiết kế hiện đại với animations mượt mà và UX/UI được tối ưu hóa cho trải nghiệm người dùng tốt nhất.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Info -->
+    <section style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 3rem 2rem; text-align: center;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h2 style="font-size: 2rem; margin-bottom: 1rem;">🎯 Sẵn sàng bắt đầu?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
+                Tham gia CloudSync ngay hôm nay và trải nghiệm quản lý file thông minh
+            </p>
+            
+            <div style="background: rgba(255,255,255,0.1); border-radius: 15px; padding: 2rem; margin-bottom: 2rem;">
+                <h3 style="margin-bottom: 1rem;">⚠️ Lưu ý quan trọng</h3>
+                <p style="margin: 0;">
+                    Bạn cần JWT Token để sử dụng chức năng upload. 
+                    Hệ thống sử dụng xác thực Bearer Token để bảo mật.
+                </p>
+            </div>
+            
+            <div>
+                <a href="/upload.html" class="btn btn-outline" style="margin-right: 1rem;">
+                    🚀 Upload ngay
+                </a>
+                <a href="https://github.com/NongHoi/NNPTUD-BUT4" class="btn" style="background: white; color: #667eea;" target="_blank">
+                    📖 Xem mã nguồn
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">☁️ CloudSync</h3>
+            <p style="opacity: 0.8; margin-bottom: 2rem;">
+                Hệ thống quản lý file thông minh với công nghệ hiện đại. 
+                Phát triển bởi sinh viên NNPTUD-BUT4.
+            </p>
+            
+            <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                <a href="/upload.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Upload</a>
+                <a href="/gallery.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Thư viện</a>
+                <a href="https://github.com/NongHoi/NNPTUD-BUT4" style="color: rgba(255,255,255,0.8); text-decoration: none;" target="_blank">GitHub</a>
+            </div>
+            
+            <div style="font-size: 0.9rem; opacity: 0.7; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1rem;">
+               
+                <p style="margin: 0;">© 2025 CloudSync - NNPTUD Project. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/main.js"></script>
+    
+    <script>
+        // Simple scroll effect
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Simple parallax effect for hero
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const hero = document.querySelector('.hero');
+                if (hero) {
+                    hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="emoji">📸🎨</div>
+      <h1>Upload Image Demo</h1>
+      <p>
+        Chào mừng đến với hệ thống upload ảnh! Dự án này hỗ trợ upload avatar
+        cho user và upload nhiều ảnh cùng lúc.
+      </p>
+
+      <div class="features">
+        <h3>✨ Tính năng:</h3>
+        <ul>
+          <li>Upload avatar cho user (Yêu cầu đăng nhập)</li>
+          <li>Upload nhiều ảnh cùng lúc</li>
+          <li>Preview ảnh trước khi upload</li>
+          <li>Giao diện đẹp và responsive</li>
+          <li>Authentication với JWT Token</li>
+          <li>Xử lý file với Multer</li>
+        </ul>
+      </div>
+
+      <div class="info-box">
+        <p>
+          <strong>⚠️ Lưu ý:</strong> Bạn cần JWT Token để sử dụng chức năng
+          upload. Hãy đăng nhập trước!
+        </p>
+      </div>
+
+      <a href="/upload.html" class="btn">🚀 Bắt đầu Upload</a>
+      <a href="https://github.com" class="btn secondary" target="_blank"
+        >📖 Xem Hướng dẫn</a
+      >
+
+      <div style="margin-top: 40px; color: #999; font-size: 0.9em">
+      
+        <p>© 2025 - NNPTDM Project</p>
+      </div>
+    </div>
+  </body>
+</html>

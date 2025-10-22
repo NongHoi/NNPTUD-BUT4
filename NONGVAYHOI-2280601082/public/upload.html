@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Files - CloudSync</title>
+    <meta name="description" content="Upload avatar và nhiều file cùng lúc với giao diện hiện đại">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/main.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☁️</text></svg>">
+    
+    <style>
+        /* Modern Upload Page Styles */
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .main-content {
+            padding-top: 100px;
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .page-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .alert {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .alert-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .card-body {
+            padding: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .file-upload {
+            position: relative;
+            border: 2px dashed #667eea;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            background: rgba(102, 126, 234, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .file-upload:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #764ba2;
+            transform: scale(1.02);
+        }
+        
+        .file-upload.dragover {
+            background: rgba(102, 126, 234, 0.15);
+            border-color: #764ba2;
+            transform: scale(1.05);
+        }
+        
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+        
+        .upload-text h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .upload-text p {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .upload-text small {
+            color: #999;
+            font-size: 0.9rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #4caf50 0%, #8bc34a 100%);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .file-name {
+            margin-top: 1rem;
+            color: #666;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+        
+        .avatar-preview {
+            text-align: center;
+            margin: 1.5rem 0;
+            display: none;
+        }
+        
+        .avatar-preview img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #667eea;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .preview-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .preview-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .preview-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .remove-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(244, 67, 54, 0.9);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .remove-btn:hover {
+            background: #f44336;
+            transform: scale(1.1);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .info-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .info-item h4 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .info-item ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .info-item li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: #666;
+        }
+        
+        .info-item li:last-child {
+            border-bottom: none;
+        }
+        
+        .info-item li::before {
+            content: "✓ ";
+            color: #4caf50;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-content {
+                padding: 0 15px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-body {
+                padding: 1.5rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="/" class="navbar-brand">☁️ CloudSync</a>
+            <ul class="nav-links">
+                <li><a href="/">Trang chủ</a></li>
+                <li><a href="/upload.html" class="active">Upload</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">📤 Upload Files</h1>
+                <p class="page-subtitle">
+                    Upload avatar cá nhân hoặc nhiều file cùng lúc một cách dễ dàng và an toàn
+                </p>
+            </div>
+
+            <!-- Alert -->
+            <div class="alert">
+                <div class="alert-icon">⚠️</div>
+                <div>
+                    <strong>Lưu ý quan trọng:</strong>
+                    <p style="margin: 0.5rem 0 0 0;">
+                        Bạn cần JWT Token để sử dụng chức năng upload. Token này được sử dụng để xác thực và bảo mật quá trình upload file.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Upload Cards -->
+            <div class="cards-grid">
+                <!-- Avatar Upload Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2><span>📸</span> Upload Avatar</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="avatarForm">
+                            <div class="form-group">
+                                <label for="token" class="form-label">JWT Token:</label>
+                                <input
+                                    type="text"
+                                    id="token"
+                                    name="token"
+                                    class="form-control"
+                                    placeholder="Nhập Bearer token..."
+                                    required
+                                />
+                                <small style="color: #666; margin-top: 5px; display: block;">
+                                    Token này sẽ được sử dụng để xác thực việc upload avatar
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Chọn ảnh avatar:</label>
+                                <div class="file-upload" id="avatarUpload">
+                                    <input type="file" id="avatarFile" accept="image/*" required />
+                                    <div class="upload-icon">📸</div>
+                                    <div class="upload-text">
+                                        <h4>Chọn ảnh avatar</h4>
+                                        <p>Kéo thả file vào đây hoặc click để chọn</p>
+                                        <small>Hỗ trợ: JPG, PNG, GIF (Max: 5MB)</small>
+                                    </div>
+                                </div>
+                                <div id="avatarFileName" class="file-name"></div>
+                            </div>
+
+                            <!-- Avatar Preview -->
+                            <div id="avatarPreview" class="avatar-preview">
+                                <img id="avatarPreviewImg" src="" alt="Avatar preview" />
+                                <p style="margin-top: 10px; color: #666;">Preview avatar</p>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                ⬆️ Upload Avatar
+                            </button>
+                        </form>
+
+                        <!-- Loading -->
+                        <div class="loading" id="avatarLoading">
+                            <div class="spinner"></div>
+                            <p>Đang upload avatar...</p>
+                        </div>
+
+                        <!-- Message -->
+                        <div id="avatarMessage" class="message"></div>
+                    </div>
+                </div>
+
+                <!-- Multiple Files Upload Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2><span>🖼️</span> Upload Multiple Files</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="multipleForm">
+                            <div class="form-group">
+                                <label for="tokenMultiple" class="form-label">JWT Token:</label>
+                                <input
+                                    type="text"
+                                    id="tokenMultiple"
+                                    name="token"
+                                    class="form-control"
+                                    placeholder="Nhập Bearer token..."
+                                    required
+                                />
+                                <small style="color: #666; margin-top: 5px; display: block;">
+                                    Token này sẽ được sử dụng để xác thực việc upload files
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Chọn nhiều file:</label>
+                                <div class="file-upload" id="multipleUpload">
+                                    <input type="file" id="multipleFiles" accept="image/*" multiple required />
+                                    <div class="upload-icon">🖼️</div>
+                                    <div class="upload-text">
+                                        <h4>Chọn nhiều file</h4>
+                                        <p>Kéo thả files vào đây hoặc click để chọn</p>
+                                        <small>Hỗ trợ: JPG, PNG, GIF (Tối đa 10 files)</small>
+                                    </div>
+                                </div>
+                                <div id="multipleFileNames" class="file-name"></div>
+                            </div>
+
+                            <!-- Multiple Files Preview -->
+                            <div class="preview-grid" id="multiplePreview"></div>
+
+                            <button type="submit" class="btn btn-success">
+                                ⬆️ Upload All Files
+                            </button>
+                        </form>
+
+                        <!-- Loading -->
+                        <div class="loading" id="multipleLoading">
+                            <div class="spinner"></div>
+                            <p>Đang upload files...</p>
+                        </div>
+
+                        <!-- Message -->
+                        <div id="multipleMessage" class="message"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Guidelines -->
+            <div class="info-section">
+                <h3 style="color: #667eea; margin-bottom: 1rem; text-align: center;">📋 Hướng dẫn Upload</h3>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h4>🔐 Authentication</h4>
+                        <ul>
+                            <li>Cần JWT Token hợp lệ để upload</li>
+                            <li>Token có thể lấy từ API đăng nhập</li>
+                            <li>Token sẽ expire sau một thời gian</li>
+                            <li>Kiểm tra định dạng: Bearer [token]</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-item">
+                        <h4>📸 Upload Avatar</h4>
+                        <ul>
+                            <li>Chỉ upload 1 file ảnh duy nhất</li>
+                            <li>Kích thước tối đa: 5MB</li>
+                            <li>Định dạng: JPG, PNG, GIF</li>
+                            <li>Tỉ lệ khuyến nghị: 1:1 (vuông)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-item">
+                        <h4>🖼️ Upload Multiple</h4>
+                        <ul>
+                            <li>Upload tối đa 10 files cùng lúc</li>
+                            <li>Mỗi file tối đa 10MB</li>
+                            <li>Hỗ trợ drag & drop</li>
+                            <li>Preview trước khi upload</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="background: #f8f9fa; border-radius: 12px; padding: 1.5rem; margin-top: 2rem; text-align: center;">
+                    <h4 style="color: #667eea; margin-bottom: 1rem;">💡 Mẹo sử dụng</h4>
+                    <p style="margin: 0; color: #666;">
+                        Bạn có thể kéo thả file trực tiếp vào vùng upload để tiết kiệm thời gian. 
+                        Hệ thống sẽ tự động nhận diện và preview file trước khi upload.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="/js/main.js"></script>
+    
+    <script>
+        // Enhanced Upload Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            setupDragAndDrop();
+            setupFilePreview();
+            setupFormHandlers();
+            syncTokenInputs();
+        });
+
+        // Drag and Drop functionality
+        function setupDragAndDrop() {
+            const uploads = document.querySelectorAll('.file-upload');
+            
+            uploads.forEach(upload => {
+                const input = upload.querySelector('input[type="file"]');
+                
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    upload.addEventListener(eventName, preventDefaults, false);
+                    document.body.addEventListener(eventName, preventDefaults, false);
+                });
+
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    upload.addEventListener(eventName, () => upload.classList.add('dragover'), false);
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    upload.addEventListener(eventName, () => upload.classList.remove('dragover'), false);
+                });
+
+                upload.addEventListener('drop', handleDrop, false);
+            });
+        }
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function handleDrop(e) {
+            const files = e.dataTransfer.files;
+            const input = e.target.querySelector('input[type="file"]');
+            
+            if (input) {
+                input.files = files;
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        }
+
+        // File preview functionality
+        function setupFilePreview() {
+            document.getElementById('avatarFile').addEventListener('change', handleAvatarPreview);
+            document.getElementById('multipleFiles').addEventListener('change', handleMultiplePreview);
+        }
+
+        function handleAvatarPreview(e) {
+            const file = e.target.files[0];
+            const fileName = document.getElementById('avatarFileName');
+            const preview = document.getElementById('avatarPreview');
+            const previewImg = document.getElementById('avatarPreviewImg');
+            
+            if (file) {
+                fileName.textContent = `Đã chọn: ${file.name} (${formatFileSize(file.size)})`;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                fileName.textContent = '';
+                preview.style.display = 'none';
+            }
+        }
+
+        function handleMultiplePreview(e) {
+            const files = Array.from(e.target.files);
+            const fileName = document.getElementById('multipleFileNames');
+            const preview = document.getElementById('multiplePreview');
+            
+            fileName.textContent = `Đã chọn: ${files.length} file(s)`;
+            preview.innerHTML = '';
+            
+            files.forEach((file, index) => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const item = document.createElement('div');
+                        item.className = 'preview-item';
+                        item.innerHTML = `
+                            <img src="${e.target.result}" alt="Preview ${index + 1}">
+                            <button type="button" class="remove-btn" onclick="removeFile(${index})">×</button>
+                        `;
+                        preview.appendChild(item);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function removeFile(index) {
+            const input = document.getElementById('multipleFiles');
+            const dt = new DataTransfer();
+            const files = Array.from(input.files);
+            
+            files.forEach((file, i) => {
+                if (i !== index) {
+                    dt.items.add(file);
+                }
+            });
+            
+            input.files = dt.files;
+            handleMultiplePreview({ target: input });
+        }
+
+        // Form handlers
+        function setupFormHandlers() {
+            document.getElementById('avatarForm').addEventListener('submit', handleAvatarSubmit);
+            document.getElementById('multipleForm').addEventListener('submit', handleMultipleSubmit);
+        }
+
+        async function handleAvatarSubmit(e) {
+            e.preventDefault();
+            
+            const token = document.getElementById('token').value;
+            const file = document.getElementById('avatarFile').files[0];
+            const loading = document.getElementById('avatarLoading');
+            const message = document.getElementById('avatarMessage');
+            
+            if (!file) {
+                showMessage(message, 'Vui lòng chọn file!', 'error');
+                return;
+            }
+
+            try {
+                loading.classList.add('active');
+                message.style.display = 'none';
+
+                const formData = new FormData();
+                formData.append('avatar', file);
+
+                const response = await fetch('/users/upload-avatar', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage(message, `✅ Upload thành công! Avatar URL: ${data.data.avatarURL}`, 'success');
+                    document.getElementById('avatarForm').reset();
+                    document.getElementById('avatarPreview').style.display = 'none';
+                    document.getElementById('avatarFileName').textContent = '';
+                } else {
+                    showMessage(message, `❌ Lỗi: ${data.message || 'Upload thất bại'}`, 'error');
+                }
+            } catch (error) {
+                showMessage(message, `❌ Lỗi: ${error.message}`, 'error');
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        async function handleMultipleSubmit(e) {
+            e.preventDefault();
+            
+            const token = document.getElementById('tokenMultiple').value;
+            const files = document.getElementById('multipleFiles').files;
+            const loading = document.getElementById('multipleLoading');
+            const message = document.getElementById('multipleMessage');
+            
+            if (!files.length) {
+                showMessage(message, 'Vui lòng chọn ít nhất 1 file!', 'error');
+                return;
+            }
+
+            try {
+                loading.classList.add('active');
+                message.style.display = 'none';
+
+                const formData = new FormData();
+                Array.from(files).forEach(file => {
+                    formData.append('files', file);
+                });
+
+                const response = await fetch('/files/upload-multiple', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage(message, `✅ Upload thành công ${data.data.length} file(s)!`, 'success');
+                    document.getElementById('multipleForm').reset();
+                    document.getElementById('multiplePreview').innerHTML = '';
+                    document.getElementById('multipleFileNames').textContent = '';
+                } else {
+                    showMessage(message, `❌ Lỗi: ${data.message || 'Upload thất bại'}`, 'error');
+                }
+            } catch (error) {
+                showMessage(message, `❌ Lỗi: ${error.message}`, 'error');
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        // Token synchronization
+        function syncTokenInputs() {
+            const token1 = document.getElementById('token');
+            const token2 = document.getElementById('tokenMultiple');
+            
+            token1.addEventListener('input', (e) => {
+                token2.value = e.target.value;
+            });
+            
+            token2.addEventListener('input', (e) => {
+                token1.value = e.target.value;
+            });
+        }
+
+        // Utility functions
+        function showMessage(element, text, type) {
+            element.textContent = text;
+            element.className = `message ${type}`;
+            element.style.display = 'block';
+            
+            // Auto hide after 5 seconds for success messages
+            if (type === 'success') {
+                setTimeout(() => {
+                    element.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // File validation
+        function validateFile(file, maxSize = 5 * 1024 * 1024) {
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            
+            if (file.size > maxSize) {
+                alert(`File "${file.name}" quá lớn! Kích thước tối đa là ${formatFileSize(maxSize)}.`);
+                return false;
+            }
+            
+            if (!allowedTypes.includes(file.type)) {
+                alert(`File "${file.name}" không được hỗ trợ! Chỉ chấp nhận JPG, PNG, GIF.`);
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Add file validation to inputs
+        document.getElementById('avatarFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && !validateFile(file, 5 * 1024 * 1024)) {
+                e.target.value = '';
+                document.getElementById('avatarFileName').textContent = '';
+                document.getElementById('avatarPreview').style.display = 'none';
+            }
+        });
+
+        document.getElementById('multipleFiles').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            const validFiles = files.filter(file => validateFile(file, 10 * 1024 * 1024));
+            
+            if (validFiles.length !== files.length) {
+                // Some files were invalid, update the input
+                const dt = new DataTransfer();
+                validFiles.forEach(file => dt.items.add(file));
+                e.target.files = dt.files;
+            }
+            
+            if (files.length > 10) {
+                alert('Chỉ được upload tối đa 10 files!');
+                const dt = new DataTransfer();
+                validFiles.slice(0, 10).forEach(file => dt.items.add(file));
+                e.target.files = dt.files;
+            }
+        });
+    </script>
+</body>
+</html>
